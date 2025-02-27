@@ -183,7 +183,7 @@ float	Time;					// used for animation, this has a value between 0. and 1.
 int		Xmouse, Ymouse;			// mouse values
 float	Xrot, Yrot;				// rotation angles in degrees
 
-int		SphereList;
+int		CowList;
 
 
 // function prototypes:
@@ -262,11 +262,11 @@ MulArray3(float factor, float a, float b, float c )
 
 //#include "setmaterial.cpp"
 //#include "setlight.cpp"
-#include "osusphere.cpp"
+//#include "osusphere.cpp"
 //#include "osucone.cpp"
 //#include "osutorus.cpp"
 //#include "bmptotexture.cpp"
-//#include "loadobjfile.cpp"
+#include "loadobjfile.cpp"
 #include "keytime.cpp"
 #include "glslprogram.cpp"
 
@@ -424,7 +424,7 @@ Display( )
 	Pattern.SetUniformVariable( (char *)"uT0", NowT0 );
 	Pattern.SetUniformVariable( (char *)"uD" , NowD  );
 
-	glCallList( SphereList );
+	glCallList( CowList );
 
 	Pattern.UnUse( );       // Pattern.Use(0);  also works
 
@@ -759,9 +759,9 @@ InitLists( )
 
 	// create the object:
 
-	SphereList = glGenLists( 1 );
-	glNewList( SphereList, GL_COMPILE );
-		OsuSphere( 1., 64, 64 );
+	CowList = glGenLists( 1 );
+	glNewList( CowList, GL_COMPILE );
+		LoadObjFile((char*)"cow.obj");
 	glEndList( );
 
 
