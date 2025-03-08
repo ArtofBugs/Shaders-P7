@@ -270,7 +270,12 @@ MulArray3(float factor, float a, float b, float c )
 #include "keytime.cpp"
 #include "glslprogram.cpp"
 
-float NowS0, NowT0, NowD;
+int Level = 1;
+float Quantize = 50.;
+float Size = 0.01;
+float LightX = 0.;
+float LightY = 20.;
+float LightZ = 20.;
 GLSLProgram Pattern;
 
 
@@ -417,14 +422,16 @@ Display( )
 
 	// set the uniform variables that will change over time:
 
-	NowS0 = 0.5f;
-	NowT0 = 0.5f;
-	NowD  = 0.2f + 0.1f*sinf(2.f*F_PI*Time);
-	Pattern.SetUniformVariable( (char *)"uS0", NowS0 );
-	Pattern.SetUniformVariable( (char *)"uT0", NowT0 );
-	Pattern.SetUniformVariable( (char *)"uD" , NowD  );
+	Pattern.SetUniformVariable( (char *)"uLevel", Level );
+	Pattern.SetUniformVariable( (char *)"uQuantize" , Quantize  );
+	Pattern.SetUniformVariable( (char *)"uLightX", LightX );
+	Pattern.SetUniformVariable( (char *)"uLightY", LightY );
+	Pattern.SetUniformVariable( (char *)"uLightZ", LightZ );
 
+	glPushMatrix();
+	glScalef(0.1, 0.1, 0.1);
 	glCallList( CowList );
+	glPopMatrix();
 
 	Pattern.UnUse( );       // Pattern.Use(0);  also works
 
@@ -725,7 +732,7 @@ InitGraphics( )
 	// all other setups go here, such as GLSLProgram and KeyTime setups:
 
 	Pattern.Init( );
-	bool valid = Pattern.Create( (char *)"pattern.vert", (char *)"pattern.frag" );
+	bool valid = Pattern.Create( (char *)"pattern.vert", (char*)"pattern.geom", (char *)"pattern.frag" );
 	if( !valid )
 		fprintf( stderr, "Could not create the Pattern shader!\n" );
 	else
@@ -734,11 +741,11 @@ InitGraphics( )
 	// set the uniform variables that will not change:
 
 	Pattern.Use( );
-	Pattern.SetUniformVariable( (char *)"uKa", 0.1f );
+	Pattern.SetUniformVariable( (char *)"uKa", 1.0f );
 	Pattern.SetUniformVariable( (char *)"uKd", 0.5f );
 	Pattern.SetUniformVariable( (char *)"uKs", 0.4f );
-	Pattern.SetUniformVariable( (char *)"uColor", 1.f, 0.5f, 0.f, 1.f );
-	Pattern.SetUniformVariable( (char *)"uSpecularColor", 1.f, 1.f, 1.f, 1.f );
+	Pattern.SetUniformVariable( (char *)"uColor", 1.f, 0.5f, 0.f );
+	Pattern.SetUniformVariable( (char *)"uSpecularColor", 1.f, 1.f, 1.f );
 	Pattern.SetUniformVariable( (char *)"uShininess", 12.f );
 	Pattern.UnUse( );
 }

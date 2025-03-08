@@ -31,6 +31,62 @@ Quantize( float f )
         return f;
 }
 
+vec3
+Quantize( vec3 v )
+{
+	return vec3(Quantize(v.x), Quantize(v.y), Quantize(v.z));
+}
+
+void
+ProduceCrosses( float s, float t )
+{
+	vec3 v = V0 + s * (V1-V0) + t * (V2-V0);
+	// v = Quantize( v );
+
+	vec3 n = N0 + s * (N1-N0) + t * (N2-N0);
+	gN = normalize( gl_NormalMatrix * n ); // normal vector
+
+	vec4 ECposition = gl_ModelViewMatrix * vec4(v,1.);
+	gL = LIGHTPOSITION - ECposition.xyz;
+	gE = vec3( 0., 0., 0. ) - ECposition.xyz;
+
+	// **Here's where uSize comes in: **
+
+	// translate v.x to the left side of the x cross-line you want to draw:
+	v.x = v.x - uSize;
+	gl_Position = gl_ModelViewProjectionMatrix * vec4(v,1.);
+	EmitVertex();
+	// translate v.x to the right side of the x cross-line you want to draw:
+	v.x = v.x + 2 * uSize;
+	gl_Position = gl_ModelViewProjectionMatrix * vec4(v,1.);
+	EmitVertex();
+	EndPrimitive( );
+	// translate v.x back to its original value:
+	v.x = v.x - uSize;
+
+	// now do the same for v.y:
+	v.y = v.y - uSize;
+    gl_Position = gl_ModelViewProjectionMatrix * vec4(v,1.);
+	EmitVertex();
+	v.y = v.y + 2 * uSize;
+    gl_Position = gl_ModelViewProjectionMatrix * vec4(v,1.);
+	EmitVertex();
+	EndPrimitive( );
+    v.y = v.y - uSize;
+
+
+	// now do the same for v.z:
+	v.z = v.z - uSize;
+    gl_Position = gl_ModelViewProjectionMatrix * vec4(v,1.);
+	EmitVertex();
+	v.z = v.z + 2 * uSize;
+    gl_Position = gl_ModelViewProjectionMatrix * vec4(v,1.);
+	EmitVertex();
+	EndPrimitive( );
+    v.z = v.z - uSize;
+
+}
+
 void
 main( )
 {
@@ -62,12 +118,10 @@ main( )
 
         for( int is = 0; is < nums; is++ )
         {
-            // ProduceCrosses( s, t );
+            ProduceCrosses( s, t );
             s += ds;
         }
 
         t -= dt;
     }
-
-    // TODO: per-fragment lighting
 }

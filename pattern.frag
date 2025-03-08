@@ -8,22 +8,21 @@ uniform float   uShininess;	 // specular exponent
 
 // in variables from the vertex shader and interpolated in the rasterizer:
 
-in  vec3  vN;		   // normal vector
-in  vec3  vL;		   // vector from point to light
-in  vec3  vE;		   // vector from point to eye
-in  vec2  vST;		   // (s,t) texture coordinates
+in  vec3  gN;		   // normal vector
+in  vec3  gL;		   // vector from point to light
+in  vec3  gE;		   // vector from point to eye
 
 
 void
 main( )
 {
-	vec3 myColor = uColor;
+	vec3 myColor = vec3(1., 1., 0.);
 
 	// apply the per-fragment lighting to myColor:
 
-	vec3 Normal = normalize(vN);
-	vec3 Light  = normalize(vL);
-	vec3 Eye    = normalize(vE);
+	vec3 Normal = normalize(gN);
+	vec3 Light  = normalize(gL);
+	vec3 Eye    = normalize(gE);
 
 	vec3 ambient = uKa * myColor;
 
