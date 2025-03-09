@@ -2,7 +2,7 @@
 
 // lighting uniform variables -- these can be set once and left alone:
 uniform float   uKa, uKd, uKs;	 // coefficients of each type of lighting -- make sum to 1.0
-uniform vec3    uColor;		 // object color
+// uniform vec3    uColor;		 // object color
 uniform vec3    uSpecularColor;	 // light color
 uniform float   uShininess;	 // specular exponent
 
