@@ -1,5 +1,5 @@
 sample:		sample.cpp
-		g++   -o sample   sample.cpp  -lGL -lGLU -lglut -lGLEW  -lm
+		g++   -o sample   sample.cpp  -lGL -lGLU -lglut  -lm
 
 
 save:

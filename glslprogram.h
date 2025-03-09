@@ -39,7 +39,7 @@ inline int GetOSU(int flag)
 
 //********************************************************************************
 // #define this to allow this to accept geometry shaders:
-	#define GEOMETRY
+	//#define GEOMETRY
 //********************************************************************************
 
 
