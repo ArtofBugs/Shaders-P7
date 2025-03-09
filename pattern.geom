@@ -41,7 +41,7 @@ void
 ProduceCrosses( float s, float t )
 {
 	vec3 v = V0 + s * (V1-V0) + t * (V2-V0);
-	// v = Quantize( v );
+	v = Quantize( v );
 
 	vec3 n = N0 + s * (N1-N0) + t * (N2-N0);
 	gN = normalize( gl_NormalMatrix * n ); // normal vector
