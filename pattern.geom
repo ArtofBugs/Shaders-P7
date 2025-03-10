@@ -16,6 +16,8 @@ out vec3	gN;		 // normal vector
 out vec3	gL;		 // vector from point to light
 out vec3	gE;		 // vector from point to eye
 
+out float	gZ;      // for chroma depth
+
 vec3 V0, V1, V2;
 vec3 V01, V02;
 vec3 N0, N1, N2;
@@ -49,6 +51,9 @@ ProduceCrosses( float s, float t )
 	vec4 ECposition = gl_ModelViewMatrix * vec4(v,1.);
 	gL = LIGHTPOSITION - ECposition.xyz;
 	gE = vec3( 0., 0., 0. ) - ECposition.xyz;
+
+	// eye coordinate depth
+	gZ = -ECposition.z;
 
 	// **Here's where uSize comes in: **
 
